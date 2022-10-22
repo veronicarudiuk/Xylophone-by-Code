@@ -7,22 +7,25 @@
 
 import UIKit
 import SwiftUI
+import AVFoundation
+
+var player: AVPlayer!
 
 class ViewController: UIViewController {
     
-//    создаю кнопки
+    //    создаю кнопки
     let cButton = UIButton(text: "C", color: .red)
     let dButton = UIButton(text: "D", color: .orange)
-    let eButton = UIButton(text: "E", color: .yellow)
+    let eButton = UIButton(text: "E", color: .systemYellow)
     let fButton = UIButton(text: "F", color: .green)
     let gButton = UIButton(text: "G", color: .systemIndigo)
     let aButton = UIButton(text: "A", color: .blue)
     let bButton = UIButton(text: "B", color: .systemPurple)
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        создаю вьюхи, помещаю в них кнопки и указываю боковое расстояние
+        //        создаю вьюхи, помещаю в них кнопки и указываю боковое расстояние
         let cView = UIView(button: cButton, space: 5)
         let dView = UIView(button: dButton, space: 10)
         let eView = UIView(button: eButton, space: 15)
@@ -31,13 +34,13 @@ class ViewController: UIViewController {
         let aView = UIView(button: aButton, space: 35)
         let bView = UIView(button: bButton, space: 40)
         
-//        добавляю вьюхи в стак вью
+        //        добавляю вьюхи в стак вью
         let mainStackView = UIStackView(arrangedSubviews: [cView, dView, eView, fView, gView, aView, bView])
-
-//        добавляю стак на главную вьюху
+        
+        //        добавляю стак на главную вьюху
         view.addSubview(mainStackView)
         
-//        настройка внешнего вида стек вью
+        //        настройка внешнего вида стек вью
         mainStackView.distribution = .fillEqually
         mainStackView.axis = .vertical
         mainStackView.spacing = 8
@@ -49,6 +52,7 @@ class ViewController: UIViewController {
     }
 }
 
+
 // расширение для дизайна кнопки с возможностью указывать текст и цвет
 extension UIButton {
     convenience init(text: String, color: UIColor) {
@@ -57,13 +61,21 @@ extension UIButton {
         backgroundColor = color
         titleLabel?.font = .systemFont(ofSize: 40)
         titleLabel?.textColor = .white
-        addTarget(self, action: #selector(onClick), for: .touchUpInside)
-        
+        addTarget(self, action: #selector(onClick(_:)), for: .touchUpInside)
+
     }
     
-    @objc func onClick() {
+// описание действий, которые запускает нажатие кнопки (звук + визуальный эффект нажатия)
+    @objc func onClick(_ sender: UIButton!) {
+        sender.alpha = 0.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender.alpha = 1
+        }
+        let url = Bundle.main.url(forResource: sender.currentTitle, withExtension: "wav")
+        player = AVPlayer.init(url: url!)
+        player.play()
+        print("\(String(describing: sender.currentTitle))did tapped")
     }
-    
 }
 
 // расширение для вьюхи с возможностью указывать кнопку (которая будет внутри) и боковое расстояние
