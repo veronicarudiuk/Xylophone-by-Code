@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         //        создаю вьюхи, помещаю в них кнопки и указываю боковое расстояние
         let cView = UIView(button: cButton, space: 5)
