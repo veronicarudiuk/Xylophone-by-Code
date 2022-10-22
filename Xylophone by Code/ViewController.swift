@@ -14,13 +14,13 @@ var player: AVPlayer!
 class ViewController: UIViewController {
     
     //    создаю кнопки
-    let cButton = UIButton(text: "C", color: .red)
-    let dButton = UIButton(text: "D", color: .orange)
-    let eButton = UIButton(text: "E", color: .systemYellow)
-    let fButton = UIButton(text: "F", color: .green)
-    let gButton = UIButton(text: "G", color: .systemIndigo)
-    let aButton = UIButton(text: "A", color: .blue)
-    let bButton = UIButton(text: "B", color: .systemPurple)
+    let cButton = UIButton(text: "C", color: UIColor.init(named: "C")!)
+    let dButton = UIButton(text: "D", color: UIColor.init(named: "D")!)
+    let eButton = UIButton(text: "E", color: UIColor.init(named: "E")!)
+    let fButton = UIButton(text: "F", color: UIColor.init(named: "F")!)
+    let gButton = UIButton(text: "G", color: UIColor.init(named: "G")!)
+    let aButton = UIButton(text: "A", color: UIColor.init(named: "A")!)
+    let bButton = UIButton(text: "B", color: UIColor.init(named: "B")!)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +60,9 @@ extension UIButton {
         self.init()
         setTitle(text, for: .normal)
         backgroundColor = color
-        titleLabel?.font = .systemFont(ofSize: 40)
+        titleLabel?.font = UIFont.boldSystemFont(ofSize: 40)
         titleLabel?.textColor = .white
+        layer.cornerRadius = 20
         addTarget(self, action: #selector(onClick(_:)), for: .touchUpInside)
 
     }
@@ -75,7 +76,6 @@ extension UIButton {
         let url = Bundle.main.url(forResource: sender.currentTitle, withExtension: "wav")
         player = AVPlayer.init(url: url!)
         player.play()
-        print("\(String(describing: sender.currentTitle))did tapped")
     }
 }
 
